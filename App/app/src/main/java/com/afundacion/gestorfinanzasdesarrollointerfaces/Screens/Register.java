@@ -1,6 +1,7 @@
 package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +26,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Register extends AppCompatActivity {
 
@@ -59,17 +61,21 @@ public class Register extends AppCompatActivity {
         public void onClick(View view) {
             if (email.getText().toString().length() == 0) {
                 email.setError("Campo obligatorio");
+            } else if (!validarEmail(email.getText().toString())) {
+                email.setError("Email no válido");
             }
+
 
             if (username.getText().toString().length() == 0) {
                 username.setError("Campo obligatorio");
             }
 
-            if (password.getText().toString().equals(secondPassword.getText().toString()) && password.length() != 0) {
-                registrarUsuario();
-            } else {
-                // Vaciar los campos contresena?
+            if (!password.getText().toString().equals(secondPassword.getText().toString())) {
                 password.setError("Las contraseñas no coinciden");
+            } else if (password.length() == 0) {
+                password.setError("Campo obligatorio");
+            } else {
+                registrarUsuario();
             }
 
         }
@@ -131,5 +137,10 @@ public class Register extends AppCompatActivity {
         };
 
         this.queue.add(request);
+    }
+
+    private boolean validarEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 }
