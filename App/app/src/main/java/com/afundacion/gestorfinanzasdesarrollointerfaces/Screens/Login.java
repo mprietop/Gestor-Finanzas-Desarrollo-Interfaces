@@ -67,7 +67,6 @@ public class Login extends AppCompatActivity {
     };
 
     private void iniciarSesion() {
-        Log.e("Mario2", Rest.getBASE_URL() + "/users?email=" + email.getText().toString());
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
                 Rest.getBASE_URL() + "/users?email=" + email.getText().toString(),
@@ -79,17 +78,18 @@ public class Login extends AppCompatActivity {
                             JSONObject user = response.getJSONObject(0);
 
                             if (email.getText().toString().equals(user.getString("email")) && password.getText().toString().equals(user.getString("password"))) {
-                                Toast.makeText(Login.this, "Loageado con éxito", Toast.LENGTH_SHORT).show();
+                                //Toast.makeText(Login.this, user.getString("id"), Toast.LENGTH_SHORT).show();
 
                                 // Guardando el id del usuario en las sharedPreferences
-                                SharedPreferences prefs =getSharedPreferences("user", Context.MODE_PRIVATE);
+                                SharedPreferences prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("userId",user.getString("id"));
                                 editor.apply();
+
                             } else {
                                 email.setError("Email y/o contraseña incorrectos");
                             }
-
+                            
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -105,4 +105,6 @@ public class Login extends AppCompatActivity {
 
         this.queue.add(request);
     }
+
+
 }
