@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.MainActivity;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Register;
 
-
 public class Launcher extends AppCompatActivity {
 
     @Override
