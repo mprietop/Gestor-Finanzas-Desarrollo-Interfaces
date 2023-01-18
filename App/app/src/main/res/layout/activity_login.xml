@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.25"
-        android:text="REGISTRO"
+        android:text="LOGIN"
         android:textAlignment="center"
         android:textStyle="bold"
         android:textSize="25sp"/>
@@ -30,46 +30,32 @@
         android:inputType="textEmailAddress"/>
 
     <EditText
-        android:id="@+id/usernameEditText"
-        android:layout_width="250dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailEditText"
-        android:layout_marginTop="20sp"
-        android:inputType="text"
-        android:hint="username"
-        android:maxLength="20"/>
-
-    <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="250dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/usernameEditText"
+        app:layout_constraintTop_toBottomOf="@id/emailEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20sp"
         android:inputType="textPassword"
-        android:hint="password"
+        android:hint="contraseña"
         android:maxLength="30"/>
 
-    <EditText
-        android:id="@+id/secondPasswordEditText"
-        android:layout_width="250dp"
-        android:layout_height="0dp"
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/passwordEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20sp"
-        android:inputType="textPassword"
-        android:hint="confirm password"
-        android:maxLength="30"/>
+        android:text="iniciar sesión"/>
 
     <Button
-        android:id="@+id/submitButton"
+        android:id="@+id/registerButton"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/secondPasswordEditText"
+        app:layout_constraintTop_toBottomOf="@id/loginButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20sp"

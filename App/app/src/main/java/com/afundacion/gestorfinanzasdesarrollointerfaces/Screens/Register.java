@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Rest;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -30,7 +31,6 @@ import java.util.regex.Pattern;
 
 public class Register extends AppCompatActivity {
 
-    private final String BASE_API_URL = "https://883325ad-0f53-4488-9414-093857463fb4.mock.pstmn.io";
     private RequestQueue queue;
 
     private EditText email, username, password, secondPassword;
@@ -84,7 +84,7 @@ public class Register extends AppCompatActivity {
     public void peticionInicial() {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                BASE_API_URL + "/health",
+                 Rest.getBASE_URL() + "/health",
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -112,7 +112,7 @@ public class Register extends AppCompatActivity {
     public void registrarUsuario() {
         StringRequest request = new StringRequest(
                 Request.Method.POST,
-                BASE_API_URL + "/users",
+                Rest.getBASE_URL() + "/users",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

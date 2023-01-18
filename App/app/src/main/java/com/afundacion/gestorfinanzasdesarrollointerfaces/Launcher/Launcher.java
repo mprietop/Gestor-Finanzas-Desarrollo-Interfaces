@@ -5,8 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.afundacion.gestorfinanzasdesarrollointerfaces.MainActivity;
-import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Register;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Login;
 
 
 public class Launcher extends AppCompatActivity {
@@ -14,7 +13,7 @@ public class Launcher extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(Launcher.this, Register.class);
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 }
