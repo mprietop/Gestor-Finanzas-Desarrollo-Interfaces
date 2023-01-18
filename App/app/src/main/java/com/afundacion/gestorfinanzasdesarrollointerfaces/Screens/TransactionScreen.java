@@ -28,11 +28,17 @@ import org.json.JSONObject;
 
 public class TransactionScreen extends AppCompatActivity {
 private EditText fecha;
-private EditText descripción;
+
+private EditText descripcion;
+
 private EditText cantidad;
+
 private Button submitButton ;
+
 private Spinner spinner;
+
 private RequestQueue requestQueue;
+
 private Context context = this;
 
 
@@ -40,49 +46,66 @@ private Context context = this;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_screen);
-        Spinner spinnertransaction=findViewById(R.id.spinner_transaction);
         ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(this, R.array.transaction, android.R.layout.simple_spinner_item);
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        spinnertransaction.setAdapter(adapter);
-        submitButton = findViewById(R.id.submit);
-        descripción = findViewById(R.id.Descripcion);
+        spinner = findViewById(R.id.spinner_transaction);
+        spinner.setAdapter(adapter);
+
+        descripcion = findViewById(R.id.Descripcion);
         cantidad = findViewById(R.id.Cantidad);
         fecha = findViewById(R.id.Fecha);
-        spinner = findViewById(R.id.spinner_transaction);
 
+        submitButton = findViewById(R.id.submit);
         submitButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Nueva transacción añadida", Toast.LENGTH_SHORT).show();
+
                 newtransaction();
             }
         });
 
         requestQueue= Volley.newRequestQueue(this);
+
     }
     private void newtransaction(){
         JSONObject requestBody = new JSONObject();
+
         //SharedPreferences prefs =getSharedPreferences("user", Context.MODE_PRIVATE);
         try {
+
           //  requestBody.put("userId",prefs.getString("userId",null));
+
             requestBody.put("amount", cantidad.getText().toString());
-            requestBody.put("description", descripción.getText().toString());
+
+            requestBody.put("description", descripcion.getText().toString());
+
             requestBody.put("date", fecha.getText().toString());
+
             requestBody.put("type", spinner.getSelectedItem().toString());
+
         }catch (JSONException e){
+
             throw new RuntimeException(e);
+
         }
         JsonObjectRequest request = new JsonObjectRequest(
+
                 Request.Method.POST,
+
                 "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + "/transactions",
+                
                 requestBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(context, "Transacción creada con éxito", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Nueva transacción creada con éxito", Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 },
+
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
