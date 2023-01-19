@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Login;
 
-
 public class Launcher extends AppCompatActivity {
 
     @Override

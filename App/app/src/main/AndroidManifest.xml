@@ -24,6 +24,20 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".TransactionScreen"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Start_screen"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Launcher.Launcher"
             android:exported="true" >
             <intent-filter>
