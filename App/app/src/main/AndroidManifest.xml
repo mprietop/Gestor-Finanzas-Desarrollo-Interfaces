@@ -17,22 +17,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:label="@string/title_activity_main"
+            android:label="@string/app_name"
             android:theme="@style/Theme.GestorFinanzasDesarrolloInterfaces.NoActionBar" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".TransactionScreen"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Start_screen"
-            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -52,6 +38,8 @@
         </activity>
         <activity android:name=".Screens.Register" />
         <activity android:name=".Screens.Login" />
+        <activity android:name=".Utils.Drawer"
+            android:theme="@style/Theme.GestorFinanzasDesarrolloInterfaces.NoActionBar"/>
     </application>
 
 </manifest>
