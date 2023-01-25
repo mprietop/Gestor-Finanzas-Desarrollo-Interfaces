@@ -1,6 +1,7 @@
 package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +39,7 @@ public class Register extends AppCompatActivity {
     private EditText email, username, password, secondPassword;
     private Button submitButton;
     private ProgressBar loadingSpinner;
+    private boolean yaRegistrado;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +63,24 @@ public class Register extends AppCompatActivity {
     private View.OnClickListener submitListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
+            if (email.getText().toString().length() == 0) {
+                email.setError("Campo obligatorio");
+            } else if (!validarEmail(email.getText().toString())) {
+                email.setError("Email no válido");
+            } else if (username.getText().toString().length() == 0) {
+                username.setError("Campo obligatorio");
+            } else if (!password.getText().toString().equals(secondPassword.getText().toString())) {
+                password.setError("Las contraseñas no coinciden");
+            } else if (password.length() == 0) {
+                password.setError("Campo obligatorio");
+            } else if (estaRegistrado()) {
+                email.setError("Email ya registrado");
+            } else {
+                registrarUsuario();
+            }
+
+            /*
             if (email.getText().toString().length() == 0) {
                 email.setError("Campo obligatorio");
             } else if (!validarEmail(email.getText().toString())) {
@@ -78,13 +100,15 @@ public class Register extends AppCompatActivity {
                 registrarUsuario();
             }
 
+             */
+
         }
     };
 
     public void peticionInicial() {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
-                 Rest.getBASE_URL() + "/health",
+                Rest.getBASE_URL() + "/health",
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -143,4 +167,35 @@ public class Register extends AppCompatActivity {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }
+
+    public boolean estaRegistrado() {
+        yaRegistrado = false;
+        JsonArrayRequest request = new JsonArrayRequest(
+                Request.Method.GET,
+                Rest.getBASE_URL() + "/users?email=" + email.getText().toString(),
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.wtf("Mario",String.valueOf(response.length()));
+                        if (response.length() > 0) {
+                            Log.wtf("Mario", "Entró");
+                            yaRegistrado = true;
+                            Log.wtf("Mario", String.valueOf(yaRegistrado));
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Register.this, "Error" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        this.queue.add(request);
+        Log.wtf("Mario", String.valueOf(yaRegistrado));
+        return yaRegistrado;
+    }
+
 }
