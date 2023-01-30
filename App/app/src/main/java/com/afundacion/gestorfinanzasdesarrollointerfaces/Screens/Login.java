@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Drawer;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Rest;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -85,7 +86,8 @@ public class Login extends AppCompatActivity {
                                 SharedPreferences.Editor editor = prefs.edit();
                                 editor.putString("userId",user.getString("id"));
                                 editor.apply();
-
+                                Intent intent = new Intent(getApplicationContext(), Drawer.class);
+                                startActivity(intent);
                             } else {
                                 email.setError("Email y/o contraseña incorrectos");
                             }

@@ -1,6 +1,7 @@
 package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,6 +39,7 @@ public class Register extends AppCompatActivity {
     private EditText email, username, password, secondPassword;
     private Button submitButton;
     private ProgressBar loadingSpinner;
+    private boolean yaRegistrado;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,88 +56,56 @@ public class Register extends AppCompatActivity {
         submitButton = findViewById(R.id.submitButton);
 
         submitButton.setOnClickListener(submitListener);
-        // Peticion inicial para comprobar si se conecta bien con la API
-        peticionInicial();
     }
 
     private View.OnClickListener submitListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+
             if (email.getText().toString().length() == 0) {
                 email.setError("Campo obligatorio");
             } else if (!validarEmail(email.getText().toString())) {
                 email.setError("Email no válido");
-            }
-
-
-            if (username.getText().toString().length() == 0) {
+            } else if (username.getText().toString().length() == 0) {
                 username.setError("Campo obligatorio");
-            }
-
-            if (!password.getText().toString().equals(secondPassword.getText().toString())) {
+            } else if (!password.getText().toString().equals(secondPassword.getText().toString())) {
                 password.setError("Las contraseñas no coinciden");
             } else if (password.length() == 0) {
                 password.setError("Campo obligatorio");
             } else {
-                registrarUsuario();
+                estaRegistrado();
             }
 
         }
     };
 
-    public void peticionInicial() {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
-                 Rest.getBASE_URL() + "/health",
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Toast.makeText(Register.this, response.getString("health"), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error.networkResponse == null) {
-                            Toast.makeText(Register.this, "Error conectando con el API", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
-
-        this.queue.add(request);
-    }
-
     public void registrarUsuario() {
-        StringRequest request = new StringRequest(
+        JSONObject object = new JSONObject();
+        try {
+            object.put("email", email.getText().toString());
+            object.put("username", username.getText().toString());
+            object.put("password", password.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 Rest.getBASE_URL() + "/users",
-                new Response.Listener<String>() {
+                object,
+                new Response.Listener() {
                     @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(Register.this, "oki", Toast.LENGTH_SHORT).show();
+                    public void onResponse(Object response) {
+                        Toast.makeText(Register.this,"Usuario registrado", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(Register.this, error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
                     }
                 }) {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> user = new HashMap<String, String>();
-                user.put("email", email.getText().toString());
-                user.put("username", username.getText().toString());
-                user.put("password", password.getText().toString());
-                return user;
-            }
         };
 
         this.queue.add(request);
@@ -143,4 +115,33 @@ public class Register extends AppCompatActivity {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }
+
+    public void estaRegistrado() {
+        yaRegistrado = false;
+        JsonArrayRequest request = new JsonArrayRequest(
+                Request.Method.GET,
+                Rest.getBASE_URL() + "/users?email=" + email.getText().toString(),
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.wtf("Mario",String.valueOf(response.length()));
+                        if (response.length() > 0) {
+                            email.setError("Email ya registrado");
+                        } else {
+                            registrarUsuario();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Register.this, "Error" + error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        this.queue.add(request);
+    }
+
 }
