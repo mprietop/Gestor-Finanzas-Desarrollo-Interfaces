@@ -56,8 +56,6 @@ public class Register extends AppCompatActivity {
         submitButton = findViewById(R.id.submitButton);
 
         submitButton.setOnClickListener(submitListener);
-        // Peticion inicial para comprobar si se conecta bien con la API
-        peticionInicial();
     }
 
     private View.OnClickListener submitListener = new View.OnClickListener() {
@@ -74,90 +72,40 @@ public class Register extends AppCompatActivity {
                 password.setError("Las contraseñas no coinciden");
             } else if (password.length() == 0) {
                 password.setError("Campo obligatorio");
-            } else if (estaRegistrado()) {
-                email.setError("Email ya registrado");
             } else {
-                registrarUsuario();
+                estaRegistrado();
             }
-
-            /*
-            if (email.getText().toString().length() == 0) {
-                email.setError("Campo obligatorio");
-            } else if (!validarEmail(email.getText().toString())) {
-                email.setError("Email no válido");
-            }
-
-
-            if (username.getText().toString().length() == 0) {
-                username.setError("Campo obligatorio");
-            }
-
-            if (!password.getText().toString().equals(secondPassword.getText().toString())) {
-                password.setError("Las contraseñas no coinciden");
-            } else if (password.length() == 0) {
-                password.setError("Campo obligatorio");
-            } else {
-                registrarUsuario();
-            }
-
-             */
 
         }
     };
 
-    public void peticionInicial() {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
-                Rest.getBASE_URL() + "/health",
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            Toast.makeText(Register.this, response.getString("health"), Toast.LENGTH_SHORT).show();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error.networkResponse == null) {
-                            Toast.makeText(Register.this, "Error conectando con el API", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }
-        );
-
-        this.queue.add(request);
-    }
-
     public void registrarUsuario() {
-        StringRequest request = new StringRequest(
+        JSONObject object = new JSONObject();
+        try {
+            object.put("email", email.getText().toString());
+            object.put("username", username.getText().toString());
+            object.put("password", password.getText().toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 Rest.getBASE_URL() + "/users",
-                new Response.Listener<String>() {
+                object,
+                new Response.Listener() {
                     @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(Register.this, "oki", Toast.LENGTH_SHORT).show();
+                    public void onResponse(Object response) {
+                        Toast.makeText(Register.this,"Usuario registrado", Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(Register.this, error.networkResponse.statusCode, Toast.LENGTH_SHORT).show();
                     }
                 }) {
-            @Nullable
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> user = new HashMap<String, String>();
-                user.put("email", email.getText().toString());
-                user.put("username", username.getText().toString());
-                user.put("password", password.getText().toString());
-                return user;
-            }
         };
 
         this.queue.add(request);
@@ -168,7 +116,7 @@ public class Register extends AppCompatActivity {
         return pattern.matcher(email).matches();
     }
 
-    public boolean estaRegistrado() {
+    public void estaRegistrado() {
         yaRegistrado = false;
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
@@ -179,9 +127,9 @@ public class Register extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         Log.wtf("Mario",String.valueOf(response.length()));
                         if (response.length() > 0) {
-                            Log.wtf("Mario", "Entró");
-                            yaRegistrado = true;
-                            Log.wtf("Mario", String.valueOf(yaRegistrado));
+                            email.setError("Email ya registrado");
+                        } else {
+                            registrarUsuario();
                         }
                     }
                 },
@@ -194,8 +142,6 @@ public class Register extends AppCompatActivity {
         );
 
         this.queue.add(request);
-        Log.wtf("Mario", String.valueOf(yaRegistrado));
-        return yaRegistrado;
     }
 
 }
