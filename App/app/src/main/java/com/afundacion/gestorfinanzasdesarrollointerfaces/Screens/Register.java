@@ -1,5 +1,8 @@
 package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
@@ -13,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Drawer;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Rest;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -39,7 +43,7 @@ public class Register extends AppCompatActivity {
     private EditText email, username, password, secondPassword;
     private Button submitButton;
     private ProgressBar loadingSpinner;
-    private boolean yaRegistrado;
+    private Context context = this;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,6 +60,7 @@ public class Register extends AppCompatActivity {
         submitButton = findViewById(R.id.submitButton);
 
         submitButton.setOnClickListener(submitListener);
+
     }
 
     private View.OnClickListener submitListener = new View.OnClickListener() {
@@ -98,6 +103,8 @@ public class Register extends AppCompatActivity {
                     @Override
                     public void onResponse(Object response) {
                         Toast.makeText(Register.this,"Usuario registrado", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, Login.class);
+                        startActivity(intent);
                     }
                 },
                 new Response.ErrorListener() {
@@ -117,7 +124,6 @@ public class Register extends AppCompatActivity {
     }
 
     public void estaRegistrado() {
-        yaRegistrado = false;
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
                 Rest.getBASE_URL() + "/users?email=" + email.getText().toString(),
@@ -143,5 +149,7 @@ public class Register extends AppCompatActivity {
 
         this.queue.add(request);
     }
+
+
 
 }
