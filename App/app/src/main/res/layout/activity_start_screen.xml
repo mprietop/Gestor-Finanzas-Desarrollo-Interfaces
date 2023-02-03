@@ -6,27 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".Screens.StartScreen">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@+id/TransactionText"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            
-            >
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-        </LinearLayout>
-    </LinearLayout>
-
 
     <TextView
         android:id="@+id/TransactionText"
@@ -45,7 +24,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/MaxSaldo" />
@@ -56,9 +34,9 @@
         android:layout_height="34dp"
         android:layout_marginTop="16dp"
         android:text="Saldo Total"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textAlignment="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,8 +44,8 @@
         android:id="@+id/Money1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TransactionText" />
 
@@ -75,7 +53,7 @@
         android:id="@+id/Money2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="21dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Money1" />
@@ -84,7 +62,7 @@
         android:id="@+id/Money3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="21dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Money2" />
@@ -93,7 +71,7 @@
         android:id="@+id/Money4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="21dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Money3" />
@@ -102,7 +80,7 @@
         android:id="@+id/Money5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="21dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Money4" />
@@ -111,7 +89,7 @@
         android:id="@+id/Money6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="21dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Money5" />
@@ -120,73 +98,82 @@
         android:id="@+id/Money7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="100dp"
         android:layout_marginTop="21dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Money6" />
 
     <TextView
         android:id="@+id/Type1"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="363dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="100dp"
+        android:textAlignment="textStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TransactionText" />
 
     <TextView
         android:id="@+id/Type2"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="21dp"
-        app:layout_constraintStart_toEndOf="@+id/Money2"
+        android:layout_marginEnd="100dp"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Type1" />
 
     <TextView
         android:id="@+id/Type3"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="21dp"
-        app:layout_constraintStart_toEndOf="@+id/Money3"
+        android:layout_marginEnd="100dp"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Type2" />
 
     <TextView
         android:id="@+id/Type4"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="21dp"
-        app:layout_constraintStart_toEndOf="@+id/Money4"
+        android:layout_marginEnd="100dp"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Type3" />
 
     <TextView
         android:id="@+id/Type5"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="21dp"
-        app:layout_constraintStart_toEndOf="@+id/Money5"
+        android:layout_marginEnd="100dp"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Type4" />
 
     <TextView
         android:id="@+id/Type6"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="21dp"
-        app:layout_constraintStart_toEndOf="@+id/Money6"
+        android:layout_marginEnd="100dp"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Type5" />
 
     <TextView
         android:id="@+id/Type7"
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
         android:layout_marginTop="21dp"
-        app:layout_constraintStart_toEndOf="@+id/Money7"
+        android:layout_marginEnd="100dp"
+        android:textAlignment="textStart"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Type6" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

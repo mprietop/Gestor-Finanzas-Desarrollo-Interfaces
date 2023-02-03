@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ import org.json.JSONException;
 import java.util.List;
 
 public class StartScreen extends AppCompatActivity {
-    private TextView money1, money2, money3, money4, money5, money6, money7, type1, type2, type3, type4, type5, type6, type7;
+    private TextView money1, money2, money3, money4, money5, money6, money7, type1, type2, type3, type4, type5, type6, type7,SaldoMax;
     private Context context = this;
     private RequestQueue queue;
 
@@ -46,7 +47,7 @@ public class StartScreen extends AppCompatActivity {
         type6 = findViewById(R.id.Type6);
         type7 = findViewById(R.id.Type7);
 
-
+        SaldoMax = findViewById(R.id.TotalSaldoText);
 
         queue = Volley.newRequestQueue(this);
         JsonRequest();
@@ -60,32 +61,80 @@ public class StartScreen extends AppCompatActivity {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        double saldo1 = 0,saldo2 = 0,saldo3 = 0,saldo4 = 0,saldo5 = 0,saldo6 = 0,saldo7 = 0,sum;
 
                         try {
-                            type1.setText(response.getJSONObject(0).getString("type"));
-                            money1.setText(response.getJSONObject(0).getString("amount"));
+                                type1.setText(response.getJSONObject(0).getString("type"));
+                                money1.setText(response.getJSONObject(0).getString("amount"));
+                                    if (response.getJSONObject(0).getString("type").equals("Ingreso")) {
+                                    saldo1 = Double.valueOf(response.getJSONObject(0).getString("amount"));
+                                    } else {
+                                    saldo1 = -Double.valueOf(response.getJSONObject(0).getString("amount"));
+                                    }
 
 
-                            money2.setText(response.getJSONObject(1).getString("amount"));
-                            type2.setText(response.getJSONObject(1).getString("type"));
+                                money2.setText(response.getJSONObject(1).getString("amount"));
+                                type2.setText(response.getJSONObject(1).getString("type"));
+                                    if (response.getJSONObject(1).getString("type").equals("Ingreso")) {
+                                        saldo2 = Double.valueOf(response.getJSONObject(1).getString("amount"));
+                                    } else {
+                                        saldo2 = -Double.valueOf(response.getJSONObject(1).getString("amount"));
+                                    }
 
-                            money3.setText(response.getJSONObject(2).getString("amount"));
-                            type3.setText(response.getJSONObject(2).getString("type"));
 
-                            money4.setText(response.getJSONObject(3).getString("amount"));
-                            type4.setText(response.getJSONObject(3).getString("type"));
+                                money3.setText(response.getJSONObject(2).getString("amount"));
+                                type3.setText(response.getJSONObject(2).getString("type"));
+                                    if (response.getJSONObject(2).getString("type").equals("Ingreso")) {
+                                        saldo3 = Double.valueOf(response.getJSONObject(2).getString("amount"));
+                                    } else {
+                                        saldo3 = -Double.valueOf(response.getJSONObject(2).getString("amount"));
+                                    }
 
-                            money5.setText(response.getJSONObject(4).getString("amount"));
-                            type5.setText(response.getJSONObject(4).getString("type"));
 
-                            money6.setText(response.getJSONObject(5).getString("amount"));
-                            type6.setText(response.getJSONObject(5).getString("type"));
+                                money4.setText(response.getJSONObject(3).getString("amount"));
+                                type4.setText(response.getJSONObject(3).getString("type"));
+                                    if (response.getJSONObject(3).getString("type").equals("Ingreso")) {
+                                        saldo4 = Double.valueOf(response.getJSONObject(3).getString("amount"));
+                                    } else {
+                                        saldo4 = -Double.valueOf(response.getJSONObject(3).getString("amount"));
+                                    }
 
-                            money7.setText(response.getJSONObject(6).getString("amount"));
-                            type7.setText(response.getJSONObject(6).getString("type"));
-                        } catch (JSONException e) {
+                                money5.setText(response.getJSONObject(4).getString("amount"));
+                                type5.setText(response.getJSONObject(4).getString("type"));
+                                    if (response.getJSONObject(4).getString("type").equals("Ingreso")) {
+                                        saldo5 = Double.valueOf(response.getJSONObject(4).getString("amount"));
+                                    } else {
+                                        saldo5 = -Double.valueOf(response.getJSONObject(4).getString("amount"));
+                                    }
+
+
+                                money6.setText(response.getJSONObject(5).getString("amount"));
+                                type6.setText(response.getJSONObject(5).getString("type"));
+                                    if (response.getJSONObject(5).getString("type").equals("Ingreso")) {
+                                        saldo6 = Double.valueOf(response.getJSONObject(5).getString("amount"));
+                                    } else {
+                                        saldo6 = -Double.valueOf(response.getJSONObject(5).getString("amount"));
+                                    }
+
+
+                                money7.setText(response.getJSONObject(6).getString("amount"));
+                                type7.setText(response.getJSONObject(6).getString("type"));
+                                    if (response.getJSONObject(6).getString("type").equals("Ingreso")) {
+                                        saldo7 = Double.valueOf(response.getJSONObject(6).getString("amount"));
+                                    } else {
+                                        saldo7 = -Double.valueOf(response.getJSONObject(6).getString("amount"));
+                                    }
+
+
+                                sum = saldo1+saldo2+saldo3+saldo4+saldo5+saldo6+saldo7;
+                                SaldoMax.setText(String.valueOf(sum));
+
+                        }catch (JSONException e) {
+                            sum = saldo1+saldo2+saldo3+saldo4+saldo5+saldo6+saldo7;
+                            SaldoMax.setText(String.valueOf(sum));
                             e.printStackTrace();
                         }
+
 
                     }
                 },
