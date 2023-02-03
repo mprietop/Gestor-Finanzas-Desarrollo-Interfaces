@@ -71,6 +71,8 @@
         android:layout_marginTop="45dp"
         android:maxLength="10"
         android:hint="Fecha"
+        android:focusable="false"
+        android:clickable="true"
         android:inputType="date"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
