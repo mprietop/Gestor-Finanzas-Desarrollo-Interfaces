@@ -3,6 +3,7 @@ package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -19,7 +20,17 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class StartScreen extends AppCompatActivity {
@@ -63,68 +74,92 @@ public class StartScreen extends AppCompatActivity {
                     public void onResponse(JSONArray response) {
                         double saldo1 = 0,saldo2 = 0,saldo3 = 0,saldo4 = 0,saldo5 = 0,saldo6 = 0,saldo7 = 0,sum;
 
+                        JSONArray sortedJsonArray = new JSONArray();
+                        List<JSONObject> jsonList = new ArrayList<JSONObject>();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                jsonList.add(response.getJSONObject(i));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Collections.sort( jsonList, new Comparator<JSONObject>() {
+
+                            public int compare(JSONObject a, JSONObject b) {
+                                String valA = "";
+                                String valB = "";
+
+                                try {
+                                    valA = (String) a.get("date");
+                                    valB = (String) b.get("date");
+                                }
+                                catch (JSONException e) {
+                                e.printStackTrace();
+                                }
+
+                                return valA.compareTo(valB);
+                            }
+                        });
+                        for (int i = 0; i < response.length(); i++) {
+                            sortedJsonArray.put(jsonList.get(i));
+                        }
                         try {
-                                type1.setText(response.getJSONObject(0).getString("type"));
-                                money1.setText(response.getJSONObject(0).getString("amount"));
-                                    if (response.getJSONObject(0).getString("type").equals("Ingreso")) {
-                                    saldo1 = Double.valueOf(response.getJSONObject(0).getString("amount"));
-                                    } else {
-                                    saldo1 = -Double.valueOf(response.getJSONObject(0).getString("amount"));
-                                    }
 
+                            type1.setText(sortedJsonArray.getJSONObject(0).getString("type"));
+                            money1.setText(sortedJsonArray.getJSONObject(0).getString("amount"));
+                            if (sortedJsonArray.getJSONObject(0).getString("type").equals("Ingreso")) {
+                                saldo1 = Double.valueOf(sortedJsonArray.getJSONObject(0).getString("amount"));
+                            } else {
+                                saldo1 = -Double.valueOf(sortedJsonArray.getJSONObject(0).getString("amount"));
+                            }
 
-                                money2.setText(response.getJSONObject(1).getString("amount"));
-                                type2.setText(response.getJSONObject(1).getString("type"));
-                                    if (response.getJSONObject(1).getString("type").equals("Ingreso")) {
-                                        saldo2 = Double.valueOf(response.getJSONObject(1).getString("amount"));
-                                    } else {
-                                        saldo2 = -Double.valueOf(response.getJSONObject(1).getString("amount"));
-                                    }
+                            type2.setText(sortedJsonArray.getJSONObject(1).getString("type"));
+                            money2.setText(sortedJsonArray.getJSONObject(1).getString("amount"));
+                            if (sortedJsonArray.getJSONObject(1).getString("type").equals("Ingreso")) {
+                                saldo2 = Double.valueOf(sortedJsonArray.getJSONObject(1).getString("amount"));
+                            } else {
+                                saldo2 = -Double.valueOf(sortedJsonArray.getJSONObject(1).getString("amount"));
+                            }
 
+                            type3.setText(sortedJsonArray.getJSONObject(2).getString("type"));
+                            money3.setText(sortedJsonArray.getJSONObject(2).getString("amount"));
+                            if (sortedJsonArray.getJSONObject(2).getString("type").equals("Ingreso")) {
+                                saldo3 = Double.valueOf(sortedJsonArray.getJSONObject(2).getString("amount"));
+                            } else {
+                                saldo3 = -Double.valueOf(sortedJsonArray.getJSONObject(2).getString("amount"));
+                            }
 
-                                money3.setText(response.getJSONObject(2).getString("amount"));
-                                type3.setText(response.getJSONObject(2).getString("type"));
-                                    if (response.getJSONObject(2).getString("type").equals("Ingreso")) {
-                                        saldo3 = Double.valueOf(response.getJSONObject(2).getString("amount"));
-                                    } else {
-                                        saldo3 = -Double.valueOf(response.getJSONObject(2).getString("amount"));
-                                    }
+                            type4.setText(sortedJsonArray.getJSONObject(3).getString("type"));
+                            money4.setText(sortedJsonArray.getJSONObject(3).getString("amount"));
+                            if (sortedJsonArray.getJSONObject(3).getString("type").equals("Ingreso")) {
+                                saldo4 = Double.valueOf(sortedJsonArray.getJSONObject(3).getString("amount"));
+                            } else {
+                                saldo4 = -Double.valueOf(sortedJsonArray.getJSONObject(0).getString("amount"));
+                            }
 
+                            type5.setText(sortedJsonArray.getJSONObject(4).getString("type"));
+                            money5.setText(sortedJsonArray.getJSONObject(4).getString("amount"));
+                            if (sortedJsonArray.getJSONObject(4).getString("type").equals("Ingreso")) {
+                                saldo5 = Double.valueOf(sortedJsonArray.getJSONObject(4).getString("amount"));
+                            } else {
+                                saldo5 = -Double.valueOf(sortedJsonArray.getJSONObject(4).getString("amount"));
+                            }
 
-                                money4.setText(response.getJSONObject(3).getString("amount"));
-                                type4.setText(response.getJSONObject(3).getString("type"));
-                                    if (response.getJSONObject(3).getString("type").equals("Ingreso")) {
-                                        saldo4 = Double.valueOf(response.getJSONObject(3).getString("amount"));
-                                    } else {
-                                        saldo4 = -Double.valueOf(response.getJSONObject(3).getString("amount"));
-                                    }
+                            type6.setText(sortedJsonArray.getJSONObject(5).getString("type"));
+                            money6.setText(sortedJsonArray.getJSONObject(5).getString("amount"));
+                            if (sortedJsonArray.getJSONObject(5).getString("type").equals("Ingreso")) {
+                                saldo6 = Double.valueOf(sortedJsonArray.getJSONObject(5).getString("amount"));
+                            } else {
+                                saldo6 = -Double.valueOf(sortedJsonArray.getJSONObject(5).getString("amount"));
+                            }
 
-                                money5.setText(response.getJSONObject(4).getString("amount"));
-                                type5.setText(response.getJSONObject(4).getString("type"));
-                                    if (response.getJSONObject(4).getString("type").equals("Ingreso")) {
-                                        saldo5 = Double.valueOf(response.getJSONObject(4).getString("amount"));
-                                    } else {
-                                        saldo5 = -Double.valueOf(response.getJSONObject(4).getString("amount"));
-                                    }
-
-
-                                money6.setText(response.getJSONObject(5).getString("amount"));
-                                type6.setText(response.getJSONObject(5).getString("type"));
-                                    if (response.getJSONObject(5).getString("type").equals("Ingreso")) {
-                                        saldo6 = Double.valueOf(response.getJSONObject(5).getString("amount"));
-                                    } else {
-                                        saldo6 = -Double.valueOf(response.getJSONObject(5).getString("amount"));
-                                    }
-
-
-                                money7.setText(response.getJSONObject(6).getString("amount"));
-                                type7.setText(response.getJSONObject(6).getString("type"));
-                                    if (response.getJSONObject(6).getString("type").equals("Ingreso")) {
-                                        saldo7 = Double.valueOf(response.getJSONObject(6).getString("amount"));
-                                    } else {
-                                        saldo7 = -Double.valueOf(response.getJSONObject(6).getString("amount"));
-                                    }
-
+                            type7.setText(sortedJsonArray.getJSONObject(6).getString("type"));
+                            money7.setText(sortedJsonArray.getJSONObject(6).getString("amount"));
+                            if (sortedJsonArray.getJSONObject(6).getString("type").equals("Ingreso")) {
+                                saldo7 = Double.valueOf(sortedJsonArray.getJSONObject(6).getString("amount"));
+                            } else {
+                                saldo7 = -Double.valueOf(sortedJsonArray.getJSONObject(6).getString("amount"));
+                            }
 
                                 sum = saldo1+saldo2+saldo3+saldo4+saldo5+saldo6+saldo7;
                                 SaldoMax.setText(String.valueOf(sum));
