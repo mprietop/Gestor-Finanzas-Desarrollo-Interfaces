@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Gestor Finanzas</string>
+    <string-array name="transaction">
+        <item>Ingreso</item>
+        <item>Gasto</item>
+    </string-array>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="menu_inicio">Inicio</string>
+    <string name="menu_agregar">Agregar</string>
+    <string name="menu_historial">Historial</string>
+    <string name="menu_estadisticas">Estadísticas</string>
 </resources>
