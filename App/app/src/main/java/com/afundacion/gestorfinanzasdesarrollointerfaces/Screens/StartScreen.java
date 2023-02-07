@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -31,6 +35,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class StartScreen extends AppCompatActivity {
@@ -60,6 +65,7 @@ public class StartScreen extends AppCompatActivity {
 
         SaldoMax = findViewById(R.id.TotalSaldoText);
 
+
         queue = Volley.newRequestQueue(this);
         JsonRequest();
     }
@@ -84,20 +90,22 @@ public class StartScreen extends AppCompatActivity {
                             }
                         }
                         Collections.sort( jsonList, new Comparator<JSONObject>() {
-
                             public int compare(JSONObject a, JSONObject b) {
+                                DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
                                 String valA = "";
                                 String valB = "";
-
                                 try {
                                     valA = (String) a.get("date");
                                     valB = (String) b.get("date");
-                                }
-                                catch (JSONException e) {
-                                e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
 
-                                return valA.compareTo(valB);
+                                try {
+                                    return f.parse(valA).compareTo(f.parse(valB));
+                                } catch (ParseException e) {
+                                    throw new IllegalArgumentException(e);
+                                }
                             }
                         });
                         for (int i = 0; i < response.length(); i++) {
