@@ -3,6 +3,7 @@ package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -71,6 +72,8 @@ public class StartScreen extends AppCompatActivity {
     }
 
     public void JsonRequest() {
+        SharedPreferences prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String userId = prefs.getString("userId", null);
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
                 "https://63c7b7205c0760f69abc6591.mockapi.io/api/transactions",
