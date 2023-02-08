@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.afundacion.gestorfinanzasdesarrollointerfaces.MainActivity;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.History;
 
 
 public class Launcher extends AppCompatActivity {
@@ -13,7 +13,7 @@ public class Launcher extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(Launcher.this, MainActivity.class);
+        Intent intent = new Intent(Launcher.this, History.class);
         startActivity(intent);
     }
 }
