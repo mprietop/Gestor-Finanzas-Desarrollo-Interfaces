@@ -2,6 +2,7 @@ package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -123,10 +124,11 @@ public class Transaction extends Fragment {
     private void newTransaction(){
         JSONObject requestBody = new JSONObject();
 
-        //SharedPreferences prefs =getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences prefs =context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        int userId = prefs.getInt("userId", -1);
         try {
 
-            //  requestBody.put("userId",prefs.getString("userId",null));
+            requestBody.put("userId",prefs.getInt("userId",-1));
             requestBody.put("amount", cantidad.getText().toString());
             requestBody.put("description", descripcion.getText().toString());
             requestBody.put("date", fecha.getText().toString());
@@ -139,7 +141,7 @@ public class Transaction extends Fragment {
         }
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + "/transactions",
+                "https://63c7b7205c0760f69abc6591.mockapi.io/api/users/" +String.valueOf(userId)+ "/transactions",
                 requestBody,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -177,7 +179,6 @@ public class Transaction extends Fragment {
                 fecha.setText(selectedDate);
             }
         });
-        //Cuando sea un fragment antes del getSupport hay que poner un getActivity()
         newFragment.show(getActivity().getSupportFragmentManager(), "datePicker");
     }
     private String twoDigits(int n) {
