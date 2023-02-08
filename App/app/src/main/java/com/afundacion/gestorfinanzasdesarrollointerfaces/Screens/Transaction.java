@@ -1,6 +1,7 @@
 package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -75,10 +76,10 @@ public class Transaction extends Fragment {
     private void newTransaction(){
         JSONObject requestBody = new JSONObject();
 
-        //SharedPreferences prefs =getSharedPreferences("user", Context.MODE_PRIVATE);
+        SharedPreferences prefs =context.getSharedPreferences("user", Context.MODE_PRIVATE);
         try {
 
-            //  requestBody.put("userId",prefs.getString("userId",null));
+            requestBody.put("userId",prefs.getString("userId",null));
             requestBody.put("amount", cantidad.getText().toString());
             requestBody.put("description", descripcion.getText().toString());
             requestBody.put("date", fecha.getText().toString());

@@ -1,6 +1,8 @@
 package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,6 +11,9 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,44 +44,52 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class StartScreen extends AppCompatActivity {
+public class StartScreen extends Fragment {
     private TextView money1, money2, money3, money4, money5, money6, money7, type1, type2, type3, type4, type5, type6, type7,SaldoMax;
-    private Context context = this;
     private RequestQueue queue;
+    private Context context;
 
+    public static StartScreen newInstance() {
+        StartScreen fragment = new StartScreen();
+        return fragment;
+    }
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_screen);
-        money1 = findViewById(R.id.Money1);
-        money2 = findViewById(R.id.Money2);
-        money3 = findViewById(R.id.Money3);
-        money4 = findViewById(R.id.Money4);
-        money5 = findViewById(R.id.Money5);
-        money6 = findViewById(R.id.Money6);
-        money7 = findViewById(R.id.Money7);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        context = getActivity().getApplicationContext();
+        View view = inflater.inflate(R.layout.activity_start_screen,container,false);
 
-        type1 = findViewById(R.id.Type1);
-        type2 = findViewById(R.id.Type2);
-        type3 = findViewById(R.id.Type3);
-        type4 = findViewById(R.id.Type4);
-        type5 = findViewById(R.id.Type5);
-        type6 = findViewById(R.id.Type6);
-        type7 = findViewById(R.id.Type7);
+        money1 = view.findViewById(R.id.Money1);
+        money2 = view.findViewById(R.id.Money2);
+        money3 = view.findViewById(R.id.Money3);
+        money4 = view.findViewById(R.id.Money4);
+        money5 = view.findViewById(R.id.Money5);
+        money6 = view.findViewById(R.id.Money6);
+        money7 = view.findViewById(R.id.Money7);
 
-        SaldoMax = findViewById(R.id.TotalSaldoText);
+        type1 = view.findViewById(R.id.Type1);
+        type2 = view.findViewById(R.id.Type2);
+        type3 = view.findViewById(R.id.Type3);
+        type4 = view.findViewById(R.id.Type4);
+        type5 = view.findViewById(R.id.Type5);
+        type6 = view.findViewById(R.id.Type6);
+        type7 = view.findViewById(R.id.Type7);
+
+        SaldoMax = view.findViewById(R.id.TotalSaldoText);
 
 
-        queue = Volley.newRequestQueue(this);
+        queue = Volley.newRequestQueue(context);
         JsonRequest();
+        return view;
     }
 
     public void JsonRequest() {
-        SharedPreferences prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String userId = prefs.getString("userId", null);
+        SharedPreferences prefs = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        int userId = prefs.getInt("userId", -1);
+        //String userId = "1";
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/transactions",
+                "https://63c7b7205c0760f69abc6591.mockapi.io/api/users/"+String.valueOf(userId)+"/transactions",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -92,7 +105,7 @@ public class StartScreen extends AppCompatActivity {
                                 e.printStackTrace();
                             }
                         }
-                        Collections.sort( jsonList, new Comparator<JSONObject>() {
+                        Collections.sort(jsonList, new Comparator<JSONObject>() {
                             public int compare(JSONObject a, JSONObject b) {
                                 DateFormat f = new SimpleDateFormat("dd/MM/yyyy");
                                 String valA = "";
@@ -111,9 +124,11 @@ public class StartScreen extends AppCompatActivity {
                                 }
                             }
                         });
+                        Collections.reverse(jsonList);
                         for (int i = 0; i < response.length(); i++) {
                             sortedJsonArray.put(jsonList.get(i));
                         }
+
                         try {
 
                             type1.setText(sortedJsonArray.getJSONObject(0).getString("type"));
@@ -187,7 +202,7 @@ public class StartScreen extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
                     }
                 }
         );
