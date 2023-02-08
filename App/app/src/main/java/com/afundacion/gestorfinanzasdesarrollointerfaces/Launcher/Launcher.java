@@ -7,13 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.History;
 
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Login;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Drawer;
 
 public class Launcher extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(Launcher.this, History.class);
+        Intent intent = new Intent(this, Login.class);
         startActivity(intent);
     }
 }
