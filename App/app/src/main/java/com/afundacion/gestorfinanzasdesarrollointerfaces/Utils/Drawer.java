@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.FragmentExample;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.History;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Transaction;
 import com.google.android.material.navigation.NavigationView;
 
@@ -111,22 +112,19 @@ public class Drawer extends AppCompatActivity
         switch (name) {
             case "Agregar":
                 fragment = Transaction.newInstance();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
-                        .replace(R.id.home_content, fragment)
-                        .commit();
                 break;
-
+            case "Historial":
+                fragment = History.newInstance();
+                break;
             default:
                 fragment = FragmentExample.newInstance(getString(title));
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
-                        .replace(R.id.home_content, fragment)
-                        .commit();
                 break;
         }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
+                .replace(R.id.home_content, fragment)
+                .commit();
         setTitle(getString(title));
     }
 

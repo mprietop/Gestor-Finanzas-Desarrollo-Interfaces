@@ -2,6 +2,7 @@ package com.afundacion.gestorfinanzasdesarrollointerfaces.Screens;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,13 +10,16 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,34 +38,46 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
-public class History extends AppCompatActivity {
+public class History extends Fragment {
 
-    private Context context = this;
+    private Context context = getActivity().getApplicationContext();
     private RequestQueue queue;
     private View view;
+    private ViewGroup viewGroup;
     private RecyclerView recyclerView;
     private TextView descripcion;
     private TextView cantidad;
     List<Transactions> transactions = new ArrayList<>();
     ElementsAdapter adapter = new ElementsAdapter(transactions);
 
+    public static History newInstance(){
+        History fragment = new History();
+        return fragment;
+    }
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.history_screen);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.history_screen, container, false);
         queue = Volley.newRequestQueue(context);
-        recyclerView = findViewById(R.id.recyclerViewHistorial);
+        recyclerView = view.findViewById(R.id.recyclerViewHistorial);
+        viewGroup = container;
         init();
+        return view;
     }
 
 
     public void init(){
+
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        int sessionToken = preferences.getInt("userId", -1);
+
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + "1" + "/transactions",
+                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + sessionToken + "/transactions",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -140,9 +156,12 @@ public class History extends AppCompatActivity {
 
     public void eliminarTransaccion(int id) {
 
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        int sessionToken = preferences.getInt("userId", -1);
+
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + "1" + "/transactions/" + id,
+                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + String.valueOf(sessionToken) + "/transactions/" + id,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -164,10 +183,10 @@ public class History extends AppCompatActivity {
     }
 
     public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
-        AlertDialog.Builder ventana = new AlertDialog.Builder(this);
+        AlertDialog.Builder ventana = new AlertDialog.Builder(context);
         ventana.setTitle("Editar transacción");
 
-        View ventanaInflada = LayoutInflater.from(this).inflate(R.layout.edit_history, null);
+        View ventanaInflada = LayoutInflater.from(context).inflate(R.layout.edit_history, null);
         ventana.setView(ventanaInflada);
 
         EditText textDescripcion = ventanaInflada.findViewById(R.id.editDescripcionHistorial);
@@ -182,7 +201,7 @@ public class History extends AppCompatActivity {
                 String descripcion = textDescripcion.getText().toString().trim();
                 String cantidad = textCantidad.getText().toString().trim();
                 if(descripcion.isEmpty() || cantidad.isEmpty()){
-                    Toast.makeText(History.this, "Los campos no pueden estar vacíos",
+                    Toast.makeText(context, "Los campos no pueden estar vacíos",
                             Toast.LENGTH_SHORT).show();
                 }else{
                     editarTransaccion(id, descripcion, cantidad, type);
@@ -213,10 +232,10 @@ public class History extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(context, "Guardado correctamente", Toast.LENGTH_SHORT).show();
-                        setContentView(R.layout.elements_history);
-                        TextView descripcionAntigua = findViewById(R.id.descripcionHistorial);
+                        View view1 = getLayoutInflater().inflate(R.layout.elements_history, viewGroup, false);
+                        TextView descripcionAntigua = view.findViewById(R.id.descripcionHistorial);
                         descripcionAntigua.setText(descripcion);
-                        TextView cantidadAntigua = findViewById(R.id.cantidadHistorial);
+                        TextView cantidadAntigua = view.findViewById(R.id.cantidadHistorial);
                         cantidadAntigua.setText(cantidad);
                         if (type.equalsIgnoreCase("Ingreso")) {
                             cantidadAntigua.setTextColor(Color.parseColor("#4CAF50"));

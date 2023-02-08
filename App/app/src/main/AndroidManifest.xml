@@ -36,9 +36,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".Screens.History"
-            android:label="@string/app_name"/>
 
         <activity android:name=".Screens.Register" />
         <activity android:name=".Screens.Login" />
