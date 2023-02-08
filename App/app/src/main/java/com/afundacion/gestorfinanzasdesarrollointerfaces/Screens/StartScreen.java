@@ -89,7 +89,7 @@ public class StartScreen extends Fragment {
         //String userId = "1";
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/users/"+String.valueOf(userId)+"/transactions",
+                "https://63c7b7205c0760f69abc6591.mockapi.io/api/users/"+ userId +"/transactions",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
