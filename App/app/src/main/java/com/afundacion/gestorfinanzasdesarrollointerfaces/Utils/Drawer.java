@@ -1,11 +1,12 @@
 package com.afundacion.gestorfinanzasdesarrollointerfaces.Utils;
 
 
-import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,13 +17,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
-import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.FragmentExample;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.History;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.StartScreen;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Stats;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Login;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Transaction;
 import com.google.android.material.navigation.NavigationView;
 
@@ -79,8 +79,6 @@ public class Drawer extends AppCompatActivity
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
     }
 
@@ -103,6 +101,8 @@ public class Drawer extends AppCompatActivity
                 return R.string.menu_historial;
             case R.id.nav_estadisticas:
                 return R.string.menu_estadisticas;
+            case R.id.nav_logout:
+                return R.string.menu_logout;
             default:
                 throw new IllegalArgumentException("menu option not implemented!!");
         }
@@ -128,8 +128,15 @@ public class Drawer extends AppCompatActivity
                 break;
             case "Estadísticas":
                 fragment = Stats.newInstance();
+            case "Cerrar sesión":
+                SharedPreferences prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear();
+                editor.apply();
+                Intent intent = new Intent(this, Login.class);
+                startActivity(intent);
+                break;
             default:
-                fragment = FragmentExample.newInstance(getString(title));
                 break;
         }
         getSupportFragmentManager()
@@ -160,5 +167,7 @@ public class Drawer extends AppCompatActivity
     public void onDrawerStateChanged(int newState) {
 
     }
+
+
 
 }

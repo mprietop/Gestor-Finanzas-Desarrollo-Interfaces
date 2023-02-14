@@ -44,12 +44,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-public class    StartScreen extends Fragment {
+public class StartScreen extends Fragment {
     private TextView money1, money2, money3, money4, money5, money6, money7, type1, type2, type3, type4, type5, type6, type7,SaldoMax;
     private RequestQueue queue;
     private Context context;
-    long ahora = System.currentTimeMillis();
-    Date fecha = new Date(ahora);
 
     public static StartScreen newInstance() {
         StartScreen fragment = new StartScreen();

@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.ElementsAdapter;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Rest;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Transactions;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -44,7 +45,7 @@ import java.util.List;
 
 public class History extends Fragment {
 
-    private Context context = getActivity().getApplicationContext();
+    private Context context;
     private RequestQueue queue;
     private View view;
     private ViewGroup viewGroup;
@@ -58,15 +59,20 @@ public class History extends Fragment {
         History fragment = new History();
         return fragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.history_screen, container, false);
-        queue = Volley.newRequestQueue(context);
         recyclerView = view.findViewById(R.id.recyclerViewHistorial);
         viewGroup = container;
-        init();
+        context = getActivity().getApplicationContext();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        init();
     }
 
 
@@ -77,7 +83,7 @@ public class History extends Fragment {
 
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + sessionToken + "/transactions",
+                Rest.getBASE_URL() + "users/" + sessionToken + "/transactions",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -100,7 +106,7 @@ public class History extends Fragment {
                     }
                 }
         );
-
+        queue = Volley.newRequestQueue(context);
         queue.add(request);
     }
 
@@ -139,7 +145,7 @@ public class History extends Fragment {
                 Log.wtf("Pablo", item.toString());
                 Toast.makeText(context, "1235622", Toast.LENGTH_SHORT).show();
 
-                mostrarPantallaEditar(id, descripcion, cantidad, type);
+                /*mostrarPantallaEditar(id, descripcion, cantidad, type);*/
                 break;
 
 
@@ -161,7 +167,7 @@ public class History extends Fragment {
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + sessionToken + "/transactions/" + id,
+                Rest.getBASE_URL() + "users/" + sessionToken + "/transactions/" + id,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -182,7 +188,10 @@ public class History extends Fragment {
         queue.add(request);
     }
 
-    public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
+
+    //ANTES FUNCIONABA, YA NO
+
+    /*public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
         AlertDialog.Builder ventana = new AlertDialog.Builder(context);
         ventana.setTitle("Editar transacción");
 
@@ -228,7 +237,7 @@ public class History extends Fragment {
         Log.wtf("Pablo", "bfjdnkemfknljnlslksfjknlsekwmdfnswk");
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PUT,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/users/" + sessionToken + "/transactions/" + id,
+                Rest.getBASE_URL() + "users/" + sessionToken + "/transactions/" + id,
                 requestBody,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -257,5 +266,5 @@ public class History extends Fragment {
                 }
         );
         this.queue.add(request);
-    }
+    }*/
 }

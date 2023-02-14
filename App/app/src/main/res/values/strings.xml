@@ -12,4 +12,5 @@
     <string name="menu_agregar">Agregar</string>
     <string name="menu_historial">Historial</string>
     <string name="menu_estadisticas">Estadísticas</string>
+    <string name="menu_logout">Cerrar sesión</string>
 </resources>
