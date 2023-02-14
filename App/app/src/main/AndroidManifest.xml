@@ -24,6 +24,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".Screens.StartScreen"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Launcher.Launcher"
             android:exported="true" >
             <intent-filter>
@@ -41,6 +48,7 @@
         <activity android:name=".Screens.Login" />
         <activity android:name=".Utils.Drawer"
             android:theme="@style/Theme.GestorFinanzasDesarrolloInterfaces.NoActionBar"/>
+
     </application>
 
 </manifest>
