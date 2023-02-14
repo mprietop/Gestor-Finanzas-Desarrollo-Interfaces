@@ -19,7 +19,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
-import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.FragmentExample;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.History;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Login;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.StartScreen;
