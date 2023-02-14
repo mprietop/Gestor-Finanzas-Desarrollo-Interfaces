@@ -50,7 +50,6 @@ public class Login extends AppCompatActivity {
         password = findViewById(R.id.passwordEditText);
 
         queue = Volley.newRequestQueue(this);
-        inicioSesionToken();
     }
 
     private View.OnClickListener registerListener = new View.OnClickListener() {
@@ -109,45 +108,7 @@ public class Login extends AppCompatActivity {
         this.queue.add(request);
     }
 
-    public void inicioSesionToken() {
-        SharedPreferences prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
-        int id = prefs.getInt("userId",-1);
-        Log.wtf("Mario", String.valueOf(id));
 
-        if (id != -1) {
-            Log.wtf("Mario", "Es distinto a -1");
-            JsonArrayRequest request = new JsonArrayRequest(
-                    Request.Method.GET,
-                    Rest.getBASE_URL() + "/users?id=" + id,
-                    null,
-                    new Response.Listener<JSONArray>() {
-                        @Override
-                        public void onResponse(JSONArray response) {
-                            if (response.length()>0) {
-                                try {
-                                    Log.wtf("Mario", "entro");
-                                    JSONObject json = response.getJSONObject(0);
-
-                                    Intent intent = new Intent(context, Drawer.class);
-                                    Toast.makeText(context, "Iniciando sesión, " + json.getString("username"), Toast.LENGTH_LONG).show();
-                                    startActivity(intent);
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-
-                        }
-                    }
-            );
-
-            this.queue.add(request);
-        }
-    }
 
 
 }
