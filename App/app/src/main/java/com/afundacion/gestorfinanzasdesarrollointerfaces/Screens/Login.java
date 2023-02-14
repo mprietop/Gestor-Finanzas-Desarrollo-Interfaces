@@ -52,6 +52,10 @@ public class Login extends AppCompatActivity {
         queue = Volley.newRequestQueue(this);
     }
 
+    @Override
+    public void onBackPressed() {
+    }
+
     private View.OnClickListener registerListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
