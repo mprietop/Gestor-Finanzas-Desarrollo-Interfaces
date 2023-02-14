@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.ElementsAdapter;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Rest;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Transactions;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -82,7 +83,7 @@ public class History extends Fragment {
 
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
-                "https://63be7f5de348cb0762102e20.mockapi.io/api/v1" + sessionToken + "/transactions",
+                Rest.getBASE_URL() + "users/" + sessionToken + "/transactions",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -144,7 +145,7 @@ public class History extends Fragment {
                 Log.wtf("Pablo", item.toString());
                 Toast.makeText(context, "1235622", Toast.LENGTH_SHORT).show();
 
-                mostrarPantallaEditar(id, descripcion, cantidad, type);
+                /*mostrarPantallaEditar(id, descripcion, cantidad, type);*/
                 break;
 
 
@@ -166,7 +167,7 @@ public class History extends Fragment {
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + String.valueOf(sessionToken) + "/transactions/" + id,
+                Rest.getBASE_URL() + "users/" + sessionToken + "/transactions/" + id,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -187,7 +188,10 @@ public class History extends Fragment {
         queue.add(request);
     }
 
-    public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
+
+    //ANTES FUNCIONABA, YA NO
+
+    /*public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
         AlertDialog.Builder ventana = new AlertDialog.Builder(context);
         ventana.setTitle("Editar transacción");
 
@@ -219,6 +223,8 @@ public class History extends Fragment {
 
     public void editarTransaccion(int id, String descripcion, String cantidad, String type){
 
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        int sessionToken = preferences.getInt("userId", -1);
 
         JSONObject requestBody = new JSONObject();
         try {
@@ -231,13 +237,13 @@ public class History extends Fragment {
         Log.wtf("Pablo", "bfjdnkemfknljnlslksfjknlsekwmdfnswk");
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PUT,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/users/"+ "1"+"/transactions/" + id,
+                Rest.getBASE_URL() + "users/" + sessionToken + "/transactions/" + id,
                 requestBody,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(context, "Guardado correctamente", Toast.LENGTH_SHORT).show();
-                        /*View view1 = getLayoutInflater().inflate(R.layout.elements_history, viewGroup, false);*/
+                        View view1 = getLayoutInflater().inflate(R.layout.elements_history, viewGroup, false);
                         TextView descripcionAntigua = view.findViewById(R.id.descripcionHistorial);
                         descripcionAntigua.setText(descripcion);
                         TextView cantidadAntigua = view.findViewById(R.id.cantidadHistorial);
@@ -260,5 +266,5 @@ public class History extends Fragment {
                 }
         );
         this.queue.add(request);
-    }
+    }*/
 }

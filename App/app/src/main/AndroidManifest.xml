@@ -24,13 +24,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Screens.StartScreen"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".Launcher.Launcher"
             android:exported="true" >
             <intent-filter>
