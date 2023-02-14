@@ -19,6 +19,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.FragmentExample;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.History;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Login;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.StartScreen;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Transaction;
@@ -120,11 +122,9 @@ public class Drawer extends AppCompatActivity
                 break;
             case "Agregar":
                 fragment = Transaction.newInstance();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
-                        .replace(R.id.home_content, fragment)
-                        .commit();
+                break;
+            case "Historial":
+                fragment = History.newInstance();
                 break;
             case "Cerrar sesión":
                 SharedPreferences prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -137,6 +137,11 @@ public class Drawer extends AppCompatActivity
             default:
                 break;
         }
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
+                .replace(R.id.home_content, fragment)
+                .commit();
         setTitle(getString(title));
     }
 

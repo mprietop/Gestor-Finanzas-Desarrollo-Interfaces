@@ -9,9 +9,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.afundacion.gestorfinanzasdesarrollointerfaces.MainActivity;
-import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.StartScreen;
-
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Login;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Drawer;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Rest;
