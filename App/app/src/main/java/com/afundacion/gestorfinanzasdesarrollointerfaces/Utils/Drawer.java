@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -109,16 +110,10 @@ public class Drawer extends AppCompatActivity
     }
 
     private void showFragment(@StringRes int title, String name) {
-        Fragment fragment = Transaction.newInstance();
-
+        Fragment fragment = null;
         switch (name) {
             case "Inicio":
                 fragment = StartScreen.newInstance();
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
-                        .replace(R.id.home_content, fragment)
-                        .commit();
                 break;
             case "Agregar":
                 fragment = Transaction.newInstance();
@@ -126,8 +121,9 @@ public class Drawer extends AppCompatActivity
             case "Historial":
                 fragment = History.newInstance();
                 break;
-            case "Estadísticas":
+            case "Estadisticas":
                 fragment = Stats.newInstance();
+                break;
             case "Cerrar sesión":
                 SharedPreferences prefs = getSharedPreferences("user", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();

@@ -34,10 +34,6 @@ public class Launcher extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         //Intent intent = new Intent(Launcher.this, StartScreen.class);
-
-        Intent intent = new Intent(this, Login.class);
-
-        startActivity(intent);
         inicioSesionToken();
     }
 

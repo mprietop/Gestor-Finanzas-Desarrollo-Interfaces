@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Utils.Rest;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -73,7 +74,7 @@ public class Stats extends Fragment {
         int userId = prefs.getInt("userId", -1);
         ;
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/users/"+ userId +"/transactions",
+                Rest.getBASE_URL() + "users/" + userId + "/transactions",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

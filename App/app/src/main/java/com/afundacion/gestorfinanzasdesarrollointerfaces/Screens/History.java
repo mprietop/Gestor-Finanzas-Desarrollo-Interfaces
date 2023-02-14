@@ -66,7 +66,7 @@ public class History extends Fragment {
         view = inflater.inflate(R.layout.history_screen, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewHistorial);
         viewGroup = container;
-        context = getActivity().getApplicationContext();
+        context = getActivity();
         return view;
     }
 
@@ -145,7 +145,7 @@ public class History extends Fragment {
                 Log.wtf("Pablo", item.toString());
                 Toast.makeText(context, "1235622", Toast.LENGTH_SHORT).show();
 
-                /*mostrarPantallaEditar(id, descripcion, cantidad, type);*/
+                mostrarPantallaEditar(id, descripcion, cantidad, type);
                 break;
 
 
@@ -191,7 +191,7 @@ public class History extends Fragment {
 
     //ANTES FUNCIONABA, YA NO
 
-    /*public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
+   public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
         AlertDialog.Builder ventana = new AlertDialog.Builder(context);
         ventana.setTitle("Editar transacción");
 
@@ -266,5 +266,5 @@ public class History extends Fragment {
                 }
         );
         this.queue.add(request);
-    }*/
+    }
 }
