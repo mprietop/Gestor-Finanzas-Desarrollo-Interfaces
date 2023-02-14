@@ -44,7 +44,7 @@ import java.util.List;
 
 public class History extends Fragment {
 
-    private Context context = getActivity().getApplicationContext();
+    private Context context;
     private RequestQueue queue;
     private View view;
     private ViewGroup viewGroup;
@@ -58,15 +58,20 @@ public class History extends Fragment {
         History fragment = new History();
         return fragment;
     }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.history_screen, container, false);
-        queue = Volley.newRequestQueue(context);
         recyclerView = view.findViewById(R.id.recyclerViewHistorial);
         viewGroup = container;
-        init();
+        context = getActivity().getApplicationContext();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        init();
     }
 
 
@@ -77,7 +82,7 @@ public class History extends Fragment {
 
         JsonArrayRequest request = new JsonArrayRequest(
                 Request.Method.GET,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + sessionToken + "/transactions",
+                "https://63be7f5de348cb0762102e20.mockapi.io/api/v1" + sessionToken + "/transactions",
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -100,7 +105,7 @@ public class History extends Fragment {
                     }
                 }
         );
-
+        queue = Volley.newRequestQueue(context);
         queue.add(request);
     }
 
@@ -232,7 +237,7 @@ public class History extends Fragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         Toast.makeText(context, "Guardado correctamente", Toast.LENGTH_SHORT).show();
-                        View view1 = getLayoutInflater().inflate(R.layout.elements_history, viewGroup, false);
+                        /*View view1 = getLayoutInflater().inflate(R.layout.elements_history, viewGroup, false);*/
                         TextView descripcionAntigua = view.findViewById(R.id.descripcionHistorial);
                         descripcionAntigua.setText(descripcion);
                         TextView cantidadAntigua = view.findViewById(R.id.cantidadHistorial);
