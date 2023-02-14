@@ -21,6 +21,8 @@ import androidx.fragment.app.FragmentManager;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.R;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.FragmentExample;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.History;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.StartScreen;
+import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Stats;
 import com.afundacion.gestorfinanzasdesarrollointerfaces.Screens.Transaction;
 import com.google.android.material.navigation.NavigationView;
 
@@ -110,12 +112,22 @@ public class Drawer extends AppCompatActivity
         Fragment fragment = Transaction.newInstance();
 
         switch (name) {
+            case "Inicio":
+                fragment = StartScreen.newInstance();
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.nav_enter, R.anim.nav_exit)
+                        .replace(R.id.home_content, fragment)
+                        .commit();
+                break;
             case "Agregar":
                 fragment = Transaction.newInstance();
                 break;
             case "Historial":
                 fragment = History.newInstance();
                 break;
+            case "Estadísticas":
+                fragment = Stats.newInstance();
             default:
                 fragment = FragmentExample.newInstance(getString(title));
                 break;

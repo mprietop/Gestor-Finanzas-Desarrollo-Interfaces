@@ -161,7 +161,7 @@ public class History extends Fragment {
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.DELETE,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + String.valueOf(sessionToken) + "/transactions/" + id,
+                "https://63c7b7205c0760f69abc6591.mockapi.io/api/" + sessionToken + "/transactions/" + id,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -214,6 +214,8 @@ public class History extends Fragment {
 
     public void editarTransaccion(int id, String descripcion, String cantidad, String type){
 
+        SharedPreferences preferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        int sessionToken = preferences.getInt("userId", -1);
 
         JSONObject requestBody = new JSONObject();
         try {
@@ -226,7 +228,7 @@ public class History extends Fragment {
         Log.wtf("Pablo", "bfjdnkemfknljnlslksfjknlsekwmdfnswk");
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PUT,
-                "https://63c7b7205c0760f69abc6591.mockapi.io/api/users/"+ "1"+"/transactions/" + id,
+                "https://63c7b7205c0760f69abc6591.mockapi.io/api/users/" + sessionToken + "/transactions/" + id,
                 requestBody,
                 new Response.Listener<JSONObject>() {
                     @Override
