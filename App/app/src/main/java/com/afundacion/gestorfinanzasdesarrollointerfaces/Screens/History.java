@@ -142,15 +142,12 @@ public class History extends Fragment {
         switch (item.getItemId()) {
 
             case R.id.editar:
-                Log.wtf("Pablo", item.toString());
-                Toast.makeText(context, "1235622", Toast.LENGTH_SHORT).show();
 
                 mostrarPantallaEditar(id, descripcion, cantidad, type);
                 break;
 
 
             case R.id.eliminar:
-                Log.wtf("Pablo", item.toString());
                 Toast.makeText(context, "bdhdhdh", Toast.LENGTH_SHORT).show();
 
                 eliminarTransaccion(id);
@@ -180,7 +177,6 @@ public class History extends Fragment {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e("Pablo", error.toString());
                     }
                 }
         );
@@ -188,10 +184,7 @@ public class History extends Fragment {
         queue.add(request);
     }
 
-
-    //ANTES FUNCIONABA, YA NO
-
-   public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
+    public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
         AlertDialog.Builder ventana = new AlertDialog.Builder(context);
         ventana.setTitle("Editar transacción");
 
@@ -234,7 +227,6 @@ public class History extends Fragment {
             e.printStackTrace();
         }
 
-        Log.wtf("Pablo", "bfjdnkemfknljnlslksfjknlsekwmdfnswk");
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.PUT,
                 Rest.getBASE_URL() + "users/" + sessionToken + "/transactions/" + id,
