@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
+
 public class Launcher extends AppCompatActivity {
     private Context context = this;
     private RequestQueue queue;
@@ -31,6 +32,8 @@ public class Launcher extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Intent intent = new Intent(Launcher.this, StartScreen.class);
         inicioSesionToken();
     }
 

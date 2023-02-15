@@ -184,9 +184,6 @@ public class History extends Fragment {
         queue.add(request);
     }
 
-
-    //ANTES FUNCIONABA, YA NO
-
     public void mostrarPantallaEditar(int id, String descripcion, String cantidad, String type){
         AlertDialog.Builder ventana = new AlertDialog.Builder(context);
         ventana.setTitle("Editar transacción");
